@@ -1,0 +1,24 @@
+.header{
+  height: 80px;
+  background-color: aquamarine;
+}
+
+.types-wrap{
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.articles{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.filter{
+  width: fit-content;
+  padding: 10px;
+  margin: auto;
+}
+

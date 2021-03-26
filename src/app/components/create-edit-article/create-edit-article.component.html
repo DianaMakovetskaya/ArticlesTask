@@ -1,0 +1,34 @@
+
+  <form  [formGroup]="articleForm" (submit)="onSend()" id="editForm">
+
+    <h2 matDialogTitle>{{title}}</h2>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Title</mat-label>
+      <input matInput type="text"  name="title" formControlName="title"/>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <textarea matInput name="description" formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="categoryId">
+        <mat-option *ngFor="let category of categories" [value]="category._id">
+          {{category.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-checkbox class="example-margin" formControlName="published">Publish?</mat-checkbox>
+
+
+    <mat-dialog-actions align="end">
+      <button mat-button matDialogClose="no">Cancel</button>
+      <button type="submit" mat-button>Submit</button>
+    </mat-dialog-actions>
+  </form>
+
+

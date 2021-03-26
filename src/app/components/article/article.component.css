@@ -1,0 +1,14 @@
+.example-card {
+  max-width: 400px;
+  margin-top: 15px;
+  /*box-shadow: 0 0 10px rgba(0,0,0,0.5); !* Параметры тени *!*/
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+
+}
+
+.green{
+  background-color: greenyellow;
+}
+.deleteBtn{
+  background-color: red;
+}

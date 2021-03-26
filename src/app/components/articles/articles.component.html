@@ -1,0 +1,39 @@
+
+<div class="header">
+
+<!--      <button mat-raised-button  (click)="showArticles('unpublished')">unpublished</button>-->
+
+    <mat-button-toggle-group class="types-wrap">
+      <button mat-raised-button (click)="openDialog()">Create article</button>
+
+      <mat-button-toggle (click)="showArticles('all')">all</mat-button-toggle>
+      <mat-button-toggle (click)="showArticles('published')">published</mat-button-toggle>
+      <mat-button-toggle (click)="showArticles('unpublished')">unpublished</mat-button-toggle>
+    </mat-button-toggle-group>
+
+
+</div>
+
+
+
+<div class="filter">
+  <mat-button-toggle-group>
+    <mat-button-toggle  *ngFor="let category of categories" (click)="sortBy(category)" >{{category.name}}</mat-button-toggle>
+    <mat-button-toggle  (click)="sortBy('all')" >All</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
+
+
+<div  class="articles">
+  <div id="CategoryError" style="display: none">
+    В цій категорії статей немає((
+  </div>
+  <div id="TypeError" style="display: none">
+    Таких статей немає(((
+  </div>
+  <div *ngFor="let article of articles">
+    <app-article [article]="article" (ItemEvent)="showArticles(type)"></app-article>
+  </div>
+</div>
+
