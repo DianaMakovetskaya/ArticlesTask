@@ -4,6 +4,7 @@ import {Category} from '../../../models/Category';
 import {CreateEditArticleComponent} from '../create-edit-article/create-edit-article.component';
 import {MatDialog} from '@angular/material/dialog';
 import {CategoryService} from '../../services/category.service';
+import {Article} from '../../../models/Article';
 
 @Component({
   selector: 'app-articles',
@@ -12,9 +13,12 @@ import {CategoryService} from '../../services/category.service';
 })
 export class ArticlesComponent implements OnInit {
 
-  articles: any[];
+  articles: Article[];
   categories: Category[];
   type: string;
+  selectedCategory: any; // Бо може бути і string
+  categoryEmpty: boolean;
+  typeEmpty: boolean;
   constructor(private articleService: ArticleService, private categoryService: CategoryService, public dialog: MatDialog) {
     this.type = 'all';
   }
@@ -25,19 +29,20 @@ export class ArticlesComponent implements OnInit {
   }
 
   sortBy(type): void {
-    const el = document.getElementById('CategoryError');
-    document.getElementById('TypeError').style.display = 'none';
-    el.style.display = 'none';
+    this.typeEmpty = false;
+    this.selectedCategory = type;
+    this.type = null;
     if (type !== 'all'){
       this.articleService.getArticlesByCategory(type._id).subscribe(value => {
         this.articles = value;
         if (value.length === 0){
-          el.textContent = `Статей в категорії "${type.name}" немає(((`;
-          el.style.display = 'block';
+          this.categoryEmpty = true;
+        }else{
+          this.categoryEmpty = false;
         }
       });
     }else{
-      this.showArticles(this.type);
+      this.showArticles('all');
     }
       // this.articleService.getArticles(this.type).subscribe(value => {
       //   if (type !== 'all'){
@@ -49,16 +54,17 @@ export class ArticlesComponent implements OnInit {
   }
 
   showArticles(type): void{
-    const el = document.getElementById('TypeError');
-    document.getElementById('CategoryError').style.display = 'none';
-    el.style.display = 'none';
+    this.categoryEmpty = false;
+    this.type = type;
+    this.selectedCategory = null;
     switch (type){
       case 'all':
         this.articleService.getAllArticles().subscribe(value => {
           this.articles = value;
           if (value.length === 0){
-            el.textContent = `Статей з типом "${type}" немає(((`;
-            el.style.display = 'block';
+            this.typeEmpty = true;
+          }else{
+            this.typeEmpty = false;
           }
         });
         break;
@@ -66,8 +72,9 @@ export class ArticlesComponent implements OnInit {
         this.articleService.getPublishedArticles().subscribe(value => {
           this.articles = value;
           if (value.length === 0){
-            el.textContent = `Статей з типом "${type}" немає(((`;
-            el.style.display = 'block';
+            this.typeEmpty = true;
+          }else{
+            this.typeEmpty = false;
           }
         });
         break;
@@ -75,13 +82,13 @@ export class ArticlesComponent implements OnInit {
         this.articleService.getUnPublishedArticles().subscribe(value => {
           this.articles = value;
           if (value.length === 0){
-            el.textContent = `Статей з типом "${type}" немає(((`;
-            el.style.display = 'block';
+            this.typeEmpty = true;
+          }else{
+            this.typeEmpty = false;
           }
         });
         break;
     }
-    this.type = type;
   }
 
   openDialog(): void {
@@ -99,4 +106,12 @@ export class ArticlesComponent implements OnInit {
   }
 
 
+  updateArticles(): void {
+   if (this.selectedCategory){
+     this.sortBy(this.selectedCategory);
+   }
+   if (this.type){
+     this.showArticles(this.type);
+   }
+  }
 }
